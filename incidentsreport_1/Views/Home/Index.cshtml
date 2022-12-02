@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js"></script>
+
+<div class="row">
+    <div class="col-md-2">
+        <a href="/Incidents/AddIncident" class="app-btn">Create Incident</a>
+    </div>
+    
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="box-container">
+            <h2>Incidents</h2>
+            <a href="/Incidents/">
+                <p class="big customer">
+                    @ViewBag.TotalIncidents
+                </p>
+                <span class="under-big customers">Total</span>
+            </a>
+            <p><a href="/Incidents/OpenIncidents">Open: @ViewBag.OpenIncidents</a></p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="box-container">
+            <h2>Assigned Incidents</h2>
+            <a href="/Incidents/AssignedIncidents">
+                <p class="big customer">
+                    @ViewBag.TotalAssignedIncidents
+                </p>
+                <span class="under-big customers">Total</span>
+            </a>
+            <p><a href="/Incidents/UnAssignedIncidents">Not Assigned: @ViewBag.TotalUnAssignedIncidents</a></p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="box-container">
+            <h2>Customers</h2>
+            <a href="/Customers/">
+                <p class="big customer">
+                    @ViewBag.TotalCustomers
+                </p>
+                <span class="under-big customers">Total</span>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="box-container">
+            <h2>Products</h2>
+            <a href="/Products/">
+                <p class="big customer">
+                    @ViewBag.TotalProducts
+                </p>
+                <span class="under-big customers">Total</span>
+            </a>
+        </div>
+    </div>
+</div>

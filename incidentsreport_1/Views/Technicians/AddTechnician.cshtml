@@ -1,0 +1,35 @@
+﻿@model DBProgramming_III.Models.Technician
+@{
+    ViewBag.Title = "AddTechnician";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js" defer></script>
+
+<h2>Add/Modify Technician</h2>
+
+@using (Html.BeginForm("AddTechnician", "Technicians", FormMethod.Post))
+{
+    @Html.HiddenFor(t => t.TechID);
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col">
+                <label>Name: </label><br />
+                @Html.TextBoxFor(t => t.Name, new { @class = "form-control", @placeholder = "Name..." })
+            </div>
+            <div class="col">
+                <label>Email: </label><br />
+                @Html.TextBoxFor(t => t.Email, new { @class = "form-control", @placeholder = "Email...", @id = "techEmail" })
+                <div id="emailValidationMessage"></div>
+            </div>
+            <div class="col">
+                <label>Phone: </label><br />
+                @Html.TextBoxFor(t => t.Phone, new { @class = "form-control", @placeholder = "Phone..." })
+            </div>
+            <div>
+                <input type="submit" value="Submit" class="btn" />
+            </div>
+        </div>
+    </div>
+}
+

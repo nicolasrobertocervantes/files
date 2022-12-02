@@ -1,0 +1,65 @@
+﻿@model List<DBProgramming_III.Models.Registration>
+@{
+    ViewBag.Title = "Registrations";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js"></script>
+
+<h2>Registrations</h2><span class="count-span">@ViewBag.TotalItems</span>
+
+<div class="row">
+    @using (Html.BeginForm("Index", "Registrations", FormMethod.Get))
+    {
+        <div class="col-md-12">
+            <div class="mt-2 mb-2">
+                <input type="text" placeholder="Search by Customer, Product Code or Product Name" name="searchTerm" id="searchTerm" />
+                <input type="submit" value="Submit" class="btn" />
+                <a href="/Registrations/Index/" class="btn">Clear Search</a>
+                <a href="/Registrations/AddRegistration/" class="btn">New Registration</a>
+            </div>
+        </div>
+
+    }
+    <div class="col-md-12">
+        <table class="incidents-table">
+            <tr class="table-header">
+                <th class="identifier">Date</th>
+                <th>Customer Name</th>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th></th>
+            </tr>
+            @foreach (var registration in Model)
+            {
+                <tr>
+                    <td>@registration.RegistrationDate.ToShortDateString()</td>
+                    <td>@registration.Customer.Name</td>
+                    <td>@registration.ProductCode</td>
+                    <td>@registration.Product.Name</td>
+
+                    <td><a href="/Registrations/AddRegistration/@registration.CustomerID/@registration.ProductCode">Edit</a></td>
+                </tr>
+            }
+        </table>
+        <nav id="navigationContainer" aria-label="Page navigation">
+            <ul class="pagination">
+            </ul>
+        </nav>
+    </div>
+</div>
+<script>
+
+    var page = parseInt('@ViewBag.page');
+    var topPage = parseInt('@ViewBag.top');
+    var totalItems = parseInt('@ViewBag.TotalItems');
+    var searchTerm = ('@ViewBag.searchTerm');
+    var baseUrl = '/Registrations/Index';
+    var searchCount = parseInt(@ViewBag.searchCount);
+
+    createPaging(page, totalItems, topPage, baseUrl, searchTerm);
+
+    if (searchCount < 10) {
+        $('#navigationContainer').addClass('hide');
+    }
+
+</script>

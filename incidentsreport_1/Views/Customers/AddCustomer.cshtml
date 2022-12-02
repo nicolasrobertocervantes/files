@@ -1,0 +1,79 @@
+﻿@model DBProgramming_III.Models.CustomerStateModel
+@{
+    ViewBag.Title = "AddCustomer";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js" defer></script>
+
+<h2>Add/Modify Customer</h2>
+
+@using (Html.BeginForm("AddCustomer", "Customers", FormMethod.Post))
+{
+    @Html.HiddenFor(c => c.customer.CustomerID);
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="col">
+                <label>Name: </label><br />
+                @Html.TextBoxFor(c => c.customer.Name, new { @class = "form-control", @placeholder = "Name..." })
+            </div>
+            <div class="col">
+                <label>Address: </label><br />
+                @*<div class="autocomplete-container" id="autocomplete-container"></div>*@
+                @Html.TextBoxFor(c => c.customer.Address, new { @class = "form-control", @placeholder = "Address..." })
+            </div>
+            <div class="col">
+                <label>City: </label><br />
+                @Html.TextBoxFor(c => c.customer.City, new { @class = "form-control", @placeholder = "City..." })
+            </div>
+            <div class="col">
+                <label>State: </label><br />
+                @{
+                    List<SelectListItem> lst = new List<SelectListItem>();
+
+
+                    foreach (var st in Model.states)
+                    {
+                        if (st.StateCode == Model.customer.State)
+                        {
+                            lst.Add(new SelectListItem { Text = st.StateCode, Value = st.StateCode, Selected = true });
+                        }
+                        else
+                        {
+                            lst.Add(new SelectListItem { Text = st.StateCode, Value = st.StateCode });
+                        }
+
+                    }
+                }
+
+                @Html.DropDownListFor(c => c.states, lst, "-- Select State --", new { @onChange = "selectedState(this)", @id = "statesDropdown", @class = "form-control" })
+                @Html.HiddenFor(c => c.customer.State, new { @id = "customerState" })
+
+            </div>
+            <div class="col">
+                <label>Zip Code: </label><br />
+                @Html.TextBoxFor(c => c.customer.ZipCode, new { @class = "form-control", @placeholder = "Zip Code..." })
+            </div>
+            <div class="col">
+                <label>Phone: </label><br />
+                @Html.TextBoxFor(c => c.customer.Phone, new { @class = "form-control", @placeholder = "Phone..." })
+            </div>
+            <div class="col">
+                <label>Email: </label><br />
+                @Html.TextBoxFor(c => c.customer.Email, new { @class = "form-control", @placeholder = "Email...", @id = "customerEmail" })
+                <div id="emailValidationMessage"></div>
+            </div>
+            <div>
+                <input type="submit" value="Submit" class="btn" />
+            </div>
+            @if (ViewBag.SavedMessage != null)
+            {
+                <div class="messageContainer">@ViewBag.SavedMessage</div>
+                <div><a href="/Customers/AddCustomer" class="create-link">Create a new customer</a></div>
+            }
+
+        </div>
+    </div>
+}
+

@@ -1,0 +1,73 @@
+﻿@model List<DBProgramming_III.Models.Customer>
+
+@{
+    ViewBag.Title = "Customers";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js"></script>
+
+<h2>Customers</h2><span class="count-span">@ViewBag.totalItems</span>
+
+<div class="row">
+    @using (Html.BeginForm("Index", "Customers", FormMethod.Get))
+    {
+    <div class="col-md-12">
+        <div class="mt-2 mb-2">
+            <input type="text" placeholder="Search by name, city, state or zipcode" name="searchTerm" id="searchTerm" />
+            <input type="submit" value="Submit" class="btn" />
+            <a href="/Customers/Index/" class="btn">Clear Search</a>
+            <a href="/Customers/AddCustomer/" class="btn">Add Customer</a>
+        </div>
+    </div>
+        
+    }
+<div class="col-md-12">
+    <table class="incidents-table">
+        <tr class="table-header">
+            <th class="identifier">ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+            <th></th>
+        </tr>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@customer.CustomerID</td>
+                <td>@customer.Name</td>
+                <td>@customer.Email</td>
+                <td>@customer.Phone</td>
+                <td>@customer.Address</td>
+                <td>@customer.City</td>
+                <td>@customer.State</td>
+                <td>@customer.ZipCode</td>
+                <td><a href="/Customers/AddCustomer/@customer.CustomerID">Edit</a></td>
+            </tr>
+        }
+    </table>
+    <nav id="navigationContainer" aria-label="Page navigation">
+        <ul class="pagination">
+        </ul>
+    </nav>
+</div>
+</div>
+<script>
+
+    var page = parseInt('@ViewBag.page');
+    var topPage = parseInt('@ViewBag.top');
+    var totalItems = parseInt('@ViewBag.TotalItems');
+    var searchTerm = ('@ViewBag.searchTerm');
+    var baseUrl = '/Customers/Index';
+    var searchCount = parseInt(@ViewBag.searchCount);
+
+    createPaging(page, totalItems, topPage, baseUrl, searchTerm);
+
+    if (searchCount < 10) {
+        $('#navigationContainer').addClass('hide');
+    }
+
+</script>

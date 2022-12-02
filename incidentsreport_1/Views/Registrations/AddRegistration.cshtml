@@ -1,0 +1,84 @@
+﻿@model DBProgramming_III.Models.RegistrationCombinedModel
+@{
+    ViewBag.Title = "AddRegistration";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js" defer></script>
+
+<h2>Add/Modify Registration</h2>
+
+@using (Html.BeginForm("AddRegistration", "Registrations", FormMethod.Post)) 
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col incident-header">
+                <p>
+                    Date:
+                </p>
+                <span>
+
+                    @Html.Label(@Model.registration.RegistrationDate.ToShortDateString())
+
+                    @Html.HiddenFor(r => r.registration.RegistrationDate)
+                </span>
+            </div>
+            <div class="col">
+                <label>Customer: </label><br />
+                @{
+                    List<SelectListItem> customerLst = new List<SelectListItem>();
+
+
+                    foreach (var cust in Model.customers)
+                    {
+                        if (cust.CustomerID == Model.registration.CustomerID)
+                        {
+                            customerLst.Add(new SelectListItem { Text = cust.Name + " [" + cust.Email + "]", Value = cust.CustomerID.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            customerLst.Add(new SelectListItem { Text = cust.Name + " [" + cust.Email + "]", Value = cust.CustomerID.ToString() });
+                        }
+
+                    }
+                }
+
+                @Html.DropDownListFor(c => c.customers, customerLst, "-- Select Customer --", new { @onChange = "selectedRegCustomer()", @id = "customersRegDropdown", @class = "form-control" })
+                @Html.HiddenFor(c => c.registration.CustomerID, new { @id = "registrationCustomer" })
+
+            </div>
+            <div class="col">
+                <label>Product: </label><br />
+                @{
+                    List<SelectListItem> productLst = new List<SelectListItem>();
+
+
+                    foreach (var prod in Model.products)
+                    {
+                        if (prod.ProductCode == Model.registration.ProductCode)
+                        {
+                            productLst.Add(new SelectListItem { Text = prod.Name + " [" + prod.ProductCode + "]", Value = prod.ProductCode, Selected = true });
+                        }
+                        else
+                        {
+                            productLst.Add(new SelectListItem { Text = prod.Name + " [" + prod.ProductCode + "]", Value = prod.ProductCode });
+                        }
+
+                    }
+                }
+
+                @Html.DropDownListFor(p => p.products, productLst, "-- Select Product Code --", new { @onChange = "selectedRegProduct()", @id = "productsRegDropdown", @class = "form-control" })
+                @Html.HiddenFor(p => p.registration.ProductCode, new { @id = "registrationProduct" })
+
+            </div>
+            <div>
+                <input type="submit" value="Submit" class="btn" />
+            </div>
+            @if (ViewBag.SavedMessage != null)
+            {
+                <div class="messageContainer">@ViewBag.SavedMessage</div>
+                <div><a href="/Registrations/AddRegistration" class="create-link">Create a new registration</a></div>
+            }
+        </div>
+    </div>
+}
+

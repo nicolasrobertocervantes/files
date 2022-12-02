@@ -1,0 +1,51 @@
+﻿@model List<DBProgramming_III.Models.Incident>
+@{
+    ViewBag.Title = "UnAssigned Incidents";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js"></script>
+
+<h2>Not Assigned Incidents</h2><span class="count-span">@ViewBag.TotalUnAssignedIncidents</span>
+
+<div class="row">
+    @using (Html.BeginForm("Index", "Incidents", FormMethod.Get))
+    {
+        <div class="col-md-12">
+            <div class="mt-2 mb-2">
+                <input type="text" placeholder="Search by incidentID, CustomerID, TechID or Title" name="searchTerm" id="searchTerm" />
+                <input type="submit" value="Submit" class="btn" />
+                <a href="/Incidents/Index/" class="btn">Clear Search</a>
+                <a href="/Incidents/AddIncident/" class="btn">Add Incident</a>
+            </div>
+            <div class="mt-2 mb-2">
+                <a href="/Incidents/AssignedIncidents/" class="btn">Go to Assigned Incidents</a>
+            </div>
+        </div>
+
+    }
+    <div class="col-md-12">
+        <table class="incidents-table">
+            <tr class="table-header">
+                <th class="identifier">ID</th>
+                <th>Date Opened</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Customer Name</th>
+                <th></th>
+            </tr>
+            @foreach (var incident in Model)
+            {
+                <tr>
+                    <td>@incident.IncidentID</td>
+                    <td>@incident.DateOpened.ToShortDateString().ToString()</td>
+                    <td>@incident.Title</td>
+                    <td>@incident.Description</td>
+                    <td>@incident.Customer.Name</td>
+
+                    <td><a href="/Incidents/AddIncident/@incident.IncidentID">Edit</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

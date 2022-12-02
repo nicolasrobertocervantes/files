@@ -1,0 +1,69 @@
+﻿@model DBProgramming_III.Models.Product
+@{
+    ViewBag.Title = "AddProduct";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js" defer></script>
+
+<h2>Add/Modify Product</h2>
+
+@using (Html.BeginForm("AddProduct", "Products", FormMethod.Post))
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            @if (!String.IsNullOrWhiteSpace(Model.ProductCode))
+            {
+                <div class="col incident-header">
+                    <p>
+                        Product Code:
+                    </p>
+                    <span>
+                        @Model.ProductCode
+                        @Html.HiddenFor(p => p.ProductCode)
+                    </span>
+                </div>
+                <div class="col incident-header">
+                    <p>
+                        Release Date:
+                    </p>
+                    <span class="flat">
+                        @Html.Label(@Model.ReleaseDate.ToShortDateString())
+                        @Html.HiddenFor(p => p.ReleaseDate)
+                    </span>
+                </div>
+            }
+            else
+            {
+                <label>Product Code: </label><br />
+                @Html.TextBoxFor(p => p.ProductCode, new { @class = "form-control", @placeholder = "Product Code..." })
+            }
+
+            <div class="col">
+                <label>Product Name: </label><br />
+                @Html.TextBoxFor(p => p.Name, new { @class = "form-control", @placeholder = "Name..." })
+            </div>
+            <div class="col">
+                <label>Version: </label><br />
+                @Html.TextBoxFor(p => p.Version, new { @class = "form-control", @placeholder = "Version..." })
+            </div>
+            <div class="col">
+                @if (String.IsNullOrWhiteSpace(Model.ProductCode))
+                {
+                    <label>Release Date: </label><br />
+                    @Html.TextBoxFor(p => p.ReleaseDate, new { @class = "form-control", type = "date", @Value = DateTime.Today.ToShortDateString(), @OnChange = "productSelectedDate(this)", @id = "prodSelectedDate" });
+                    @Html.HiddenFor(p => p.ReleaseDate, new { @id = "productReleaseDate" })
+                }
+            </div>
+            <div class="col">
+                <input type="submit" value="Submit" class="btn" />
+            </div>
+            @if (ViewBag.SavedMessage != null) { 
+                <div class="messageContainer">@ViewBag.SavedMessage</div>
+                <div><a href="/Products/AddProduct" class="create-link">Create a new product</a></div>
+            }
+            
+        </div>
+    </div>
+}
+

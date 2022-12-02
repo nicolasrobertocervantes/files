@@ -1,0 +1,146 @@
+﻿@model DBProgramming_III.Models.CombinedModels
+@{
+    ViewBag.Title = "AddIncident";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js" defer></script>
+
+<h2>Add/Modify Incident</h2>
+
+
+@using (Html.BeginForm("AddIncident", "Incidents", FormMethod.Post))
+
+{
+    @Html.HiddenFor(c => c.incident.IncidentID);
+
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model.incident.IncidentID != 0)
+            {
+                <div class="col incident-header">
+                    <p>
+                        Incident Number:
+                    </p>
+                    <span class="flat">
+                        @Model.incident.IncidentID.ToString()
+                    </span>
+                </div>
+            }
+            <div class="col incident-header">
+                <p>
+                    Incident Date:
+                </p>
+                <span>
+
+                    @Html.Label(@Model.incident.DateOpened.ToShortDateString())
+
+                    @Html.HiddenFor(p => p.incident.DateOpened)
+                </span>
+            </div>
+            @if (Model.incident.DateClosed.HasValue)
+            {
+                <div class="col incident-header">
+                    <p>
+                        Incident closed at:
+                    </p>
+                    <span class="closed">
+                        @Model.incident.DateClosed.Value.ToShortDateString()
+                    </span>
+                </div>
+            }
+
+            <div class="col">
+                @{
+                    List<SelectListItem> customerLst = new List<SelectListItem>();
+
+
+                    foreach (var cust in Model.customers)
+                    {
+                        if (cust.CustomerID == Model.incident.CustomerID)
+                        {
+                            customerLst.Add(new SelectListItem { Text = cust.Name + " [" + cust.Email + "]", Value = cust.CustomerID.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            customerLst.Add(new SelectListItem { Text = cust.Name + " [" + cust.Email + "]", Value = cust.CustomerID.ToString() });
+                        }
+
+                    }
+                }
+
+                @Html.DropDownListFor(c => c.customers, customerLst, "-- Select Customer --", new { @onChange = "selectedCustomer()", @id = "customersDropdown", @class = "form-control" })
+                @Html.HiddenFor(c => c.incident.CustomerID, new { @id = "incidentCustomer" })
+
+            </div>
+            <div class="col">
+                @{
+                    List<SelectListItem> productLst = new List<SelectListItem>();
+
+
+                    foreach (var prod in Model.products)
+                    {
+                        if (prod.ProductCode == Model.incident.ProductCode)
+                        {
+                            productLst.Add(new SelectListItem { Text = prod.Name + " [" + prod.ProductCode + "]", Value = prod.ProductCode, Selected = true });
+                        }
+                        else
+                        {
+                            productLst.Add(new SelectListItem { Text = prod.Name + " [" + prod.ProductCode + "]", Value = prod.ProductCode });
+                        }
+
+                    }
+                }
+
+                @Html.DropDownListFor(p => p.products, productLst, "-- Select Product --", new { @onChange = "selectedProduct()", @id = "productsDropdown", @class = "form-control" })
+                @Html.HiddenFor(p => p.incident.ProductCode, new { @id = "incidentProduct" })
+
+            </div>
+            <div class="col">
+                @{
+                    List<SelectListItem> techLst = new List<SelectListItem>();
+
+
+                    foreach (var tech in Model.technicians)
+                    {
+                        if (tech.TechID == Model.incident.TechID)
+                        {
+                            techLst.Add(new SelectListItem { Text = tech.Name + " [" + tech.TechID + "]", Value = tech.TechID.ToString(), Selected = true });
+                        }
+                        else
+                        {
+                            techLst.Add(new SelectListItem { Text = tech.Name + " [" + tech.TechID + "]", Value = tech.TechID.ToString() });
+                        }
+
+                    }
+                }
+
+                @Html.DropDownListFor(t => t.technicians, techLst, "-- Select Technician --", new { @onChange = "selectedTech()", @id = "techDropdown", @class = "form-control" })
+                @Html.HiddenFor(t => t.incident.TechID, new { @id = "incidentTech" })
+
+            </div>
+            <div class="col">
+                @Html.TextBoxFor(i => i.incident.Title, new { @class = "form-control", @placeholder = "Title..." })
+            </div>
+            <div class="col">
+                @Html.TextAreaFor(i => i.incident.Description, new { @class = "form-control", @placeholder = "Description..." })
+            </div>
+            @if (Model.incident.IncidentID != 0 && !Model.incident.DateClosed.HasValue)
+            {
+                <div class="col ch-container">
+                    <label>Close Incident?</label>
+                    <input type="checkbox" name="closeIncident" id="closeIncident" />
+                </div>
+            }
+            <div>
+                <input type="submit" value="Submit" class="btn" />
+            </div>
+            @if (ViewBag.SavedMessage != null)
+            {
+                <div class="messageContainer">@ViewBag.SavedMessage</div>
+                <div><a href="/Products/AddProduct" class="create-link">Create a new product</a></div>
+            }
+
+        </div>
+    </div>
+
+}

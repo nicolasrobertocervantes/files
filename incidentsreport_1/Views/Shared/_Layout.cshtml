@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - IR (Incident Report)</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href="~/Content/styles.css" rel="stylesheet" />
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Bebas+Neue&family=Staatliches&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Incident Report", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="inner-body-content">
+            <div class="inner-container">
+                <div class="inner-sidebar">
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li>@Html.ActionLink("Dashboard", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Incidents", "Index", "Incidents")
+                                <ul>
+                                    <li>@Html.ActionLink("Open Incidents", "OpenIncidents", "Incidents")</li>
+                                    <li>@Html.ActionLink("Not Assigned Incidents", "UnassignedIncidents", "Incidents")</li>
+                                    <li>@Html.ActionLink("Create/Modify Incident", "AddIncident", "Incidents")</li>
+                                </ul>
+                            </li>
+                            <li>@Html.ActionLink("Customers", "Index", "Customers")
+                                <ul>
+                                    <li>@Html.ActionLink("Create/Modify Customer", "AddCustomer", "Customers")</li>
+                                </ul>
+                            </li>
+                            <li>@Html.ActionLink("Products", "Index", "Products")
+                                <ul>
+                                    <li>@Html.ActionLink("Create/Modify Products", "AddProduct", "Products")</li>
+                                </ul>
+                            </li>
+                            <li>@Html.ActionLink("Registrations", "Index", "Registrations")
+                                <ul>
+                                    <li>@Html.ActionLink("Add/Modify Registration", "AddRegistration", "Registrations")</li>
+                                </ul>
+                            </li>
+                            <li>@Html.ActionLink("Technicians", "Index", "Technicians")
+                                <ul>
+                                    <li>@Html.ActionLink("Add/Modify Technician", "AddTechnician", "Technicians")</li>
+                                </ul></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="inner-body">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Incident Reporting App</p>
+    </footer>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    
+</body>
+</html>

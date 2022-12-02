@@ -1,0 +1,45 @@
+﻿@model List<DBProgramming_III.Models.Technician>
+@{
+    ViewBag.Title = "Technicians";
+}
+
+<script type="text/javascript" src="~/Content/scripts.js"></script>
+
+<h2>Technicians</h2><span class="count-span">@ViewBag.TotalTechinicians</span>
+
+<div class="row">
+    @using (Html.BeginForm("Index", "Technicians", FormMethod.Get))
+    {
+        <div class="col-md-12">
+            <div class="mt-2 mb-2">
+                <input type="text" placeholder="Search by Tech ID or Name" name="searchTerm" id="searchTerm" />
+                <input type="submit" value="Submit" class="btn" />
+                <a href="/Technicians/Index/" class="btn">Clear Search</a>
+                <a href="/Technicians/AddTechnician/" class="btn">Add Technician</a>
+            </div>
+        </div>
+
+    }
+    <div class="col-md-12">
+        <table class="incidents-table">
+            <tr class="table-header">
+                <th class="identifier">ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th></th>
+            </tr>
+            @foreach (var technician in Model)
+            {
+                <tr>
+                    <td>@technician.TechID</td>
+                    <td>@technician.Name</td>
+                    <td>@technician.Email</td>
+                    <td>@technician.Phone</td>
+
+                    <td><a href="/Technicians/AddTechnician/@technician.TechID">Edit</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
